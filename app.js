@@ -11,6 +11,10 @@ var brandSchema = new mongoose.Schema({
     name: String,
 });
 
+var modelSchema = new mongoose.Schema({
+
+});
+
 Brand = mongoose.model("Brand", brandSchema);
 
 // brandNames = ["BMW", "Audi", "Mercedes"];
