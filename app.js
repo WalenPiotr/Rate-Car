@@ -44,10 +44,19 @@ app.post("/brands", function (request, response) {
 
 app.get("/brands/:id", function(request, response){
     Brand.findById(request.params.id).populate("models").exec(function(error, brand){
-        response.render("models/index.ejs", {brand: brand});
+        if(error) {
+            console.error(error);
+        } else {
+            response.render("models/index.ejs", {brand: brand});
+        }
     });
 });
 
+app.get("/brands/:id/new",function(request, response){
+    Brand.findById(request.params.id, function(error, brand){
+        response.render("models/new.ejs", {brand: brand});
+    });
+});
 
 app.listen(8888, "127.0.0.1", function () {
     console.log("Server has started on: ");
