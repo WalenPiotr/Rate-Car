@@ -28,7 +28,7 @@ app.get("/brands", function (request, response) {
 });
 
 app.get("/brands/new", function (request, response) {
-    response.render("new.ejs");
+    response.render("brands/new.ejs");
 })
 
 app.post("/brands", function (request, response) {
