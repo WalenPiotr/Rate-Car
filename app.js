@@ -22,34 +22,34 @@ var brandSchema = new mongoose.Schema({
 Model = mongoose.model("Model", modelSchema);
 Brand = mongoose.model("Brand", brandSchema);
 
-brandNames = ["BMW", "Audi", "Mercedes"];
-Brand.remove({},function(error){
-    if(error){
-        console.error(error);
-    } else {
-        console.log("Brands removed")
-        Model.remove({},function(error){
-            if(error){
-                console.error(error);
-            } else {
-                console.log("Models removed")
-                brandNames.forEach(function (brandName) {
-                    Brand.create({name: brandName},function(error, brand){
-                        if(error) {
-                            console.error(error);
-                        } else {
-                            Model.create({name: "modelName"}, function(error, model){
-                                brand.models.push(model._id);
-                                brand.save();
-                                console.log("Create new brand and model")
-                            });            
-                        }
-                    });
-                });
-            }
-        });
-    }
-});
+// brandNames = ["BMW", "Audi", "Mercedes"];
+// Brand.remove({},function(error){
+//     if(error){
+//         console.error(error);
+//     } else {
+//         console.log("Brands removed")
+//         Model.remove({},function(error){
+//             if(error){
+//                 console.error(error);
+//             } else {
+//                 console.log("Models removed")
+//                 brandNames.forEach(function (brandName) {
+//                     Brand.create({name: brandName},function(error, brand){
+//                         if(error) {
+//                             console.error(error);
+//                         } else {
+//                             Model.create({name: "modelName"}, function(error, model){
+//                                 brand.models.push(model._id);
+//                                 brand.save();
+//                                 console.log("Create new brand and model")
+//                             });            
+//                         }
+//                     });
+//                 });
+//             }
+//         });
+//     }
+// });
 
 app.get("/", function (request, response) {
     response.render("landing.ejs");
@@ -81,11 +81,15 @@ app.post("/brands", function (request, response) {
     response.redirect("/brands");
 });
 
+app.get("/brands/:id", function(request, response){
+    Brand.findById(request.params.id).populate("models").exec(function(error, brand){
+        response.render("models.ejs", {brand: brand});
+    });
+});
 
 
-
-app.get("/models", function (req, res) {
-    res.render("models.ejs");
+app.get("/models", function (request, response) {
+    response.render("models.ejs");
 });
 
 app.listen(8888, "127.0.0.1", function () {
