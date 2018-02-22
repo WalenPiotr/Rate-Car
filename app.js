@@ -8,7 +8,7 @@ app.get("/", function (req, res) {
 });
 
 app.get("/search", function (req, res) {
-    res.send("brands page");
+    res.send("brands.ejs");
 });
 
 app.listen(process.env.PORT, process.env.IP, function () {
