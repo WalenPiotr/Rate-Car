@@ -7,7 +7,7 @@ app.get("/", function (req, res) {
     res.render("landing.ejs");
 });
 
-app.get("/search", function (req, res) {
+app.get("/brands", function (req, res) {
     res.send("brands.ejs");
 });
 
