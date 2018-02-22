@@ -22,7 +22,7 @@ app.get("/brands", function (request, response) {
             console.error(error)
         } else {
             console.log(brands);
-            response.render("brands.ejs", { brands: brands });
+            response.render("brands/index.ejs", { brands: brands });
         }
     });
 });
@@ -44,14 +44,10 @@ app.post("/brands", function (request, response) {
 
 app.get("/brands/:id", function(request, response){
     Brand.findById(request.params.id).populate("models").exec(function(error, brand){
-        response.render("models.ejs", {brand: brand});
+        response.render("models/index.ejs", {brand: brand});
     });
 });
 
-
-app.get("/models", function (request, response) {
-    response.render("models.ejs");
-});
 
 app.listen(8888, "127.0.0.1", function () {
     console.log("Server has started on: ");
