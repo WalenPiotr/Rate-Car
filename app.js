@@ -4,27 +4,52 @@ var app = express()
 var mongoose = require("mongoose");
 mongoose.connect("mongodb://localhost:27017/RateCar");
 
+var bodyParser = require("body-parser");
+app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(express.static(__dirname + "/public"));
 
-var brandSchema = new mongoose.Schema({
+
+var modelSchema = new mongoose.Schema({
     name: String,
 });
 
-var modelSchema = new mongoose.Schema({
-
+var brandSchema = new mongoose.Schema({
+    name: String,
+    models: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Model' }]
 });
 
+Model = mongoose.model("Model", modelSchema);
 Brand = mongoose.model("Brand", brandSchema);
 
-// brandNames = ["BMW", "Audi", "Mercedes"];
-// console.log(brandNames);
-// brandNames.forEach(function (name) {
-//     var brand = new Brand({ name: name });
-//     brand.save(function (error) {
-//         console.error(error);
-//     });
-// });
+brandNames = ["BMW", "Audi", "Mercedes"];
+Brand.remove({},function(error){
+    if(error){
+        console.error(error);
+    } else {
+        console.log("Brands removed")
+        Model.remove({},function(error){
+            if(error){
+                console.error(error);
+            } else {
+                console.log("Models removed")
+                brandNames.forEach(function (brandName) {
+                    Brand.create({name: brandName},function(error, brand){
+                        if(error) {
+                            console.error(error);
+                        } else {
+                            Model.create({name: "modelName"}, function(error, model){
+                                brand.models.push(model._id);
+                                brand.save();
+                                console.log("Create new brand and model")
+                            });            
+                        }
+                    });
+                });
+            }
+        });
+    }
+});
 
 app.get("/", function (request, response) {
     response.render("landing.ejs");
@@ -42,10 +67,17 @@ app.get("/brands", function (request, response) {
 });
 
 app.get("/brands/new", function (request, response) {
-    response.render("new.ejs", { brands: brands });
+    response.render("new.ejs");
 })
 
 app.post("/brands", function (request, response) {
+    Brand.create({name: request.body.name}, function(error, brand){
+        if(error){
+            console.error(error);
+        } else {
+            console.log(brand);
+        }
+    })
     response.redirect("/brands");
 });
 

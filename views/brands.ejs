@@ -5,6 +5,7 @@
         <div class="container">
             <h1>Welcome to RateCar!</h1>
             <p>Select car brand you are interested in!</p>
+            <a class="btn btn-primary btn-lg" href="/brands/new">Add New Brand</a>
         </div>
     </header>
 
@@ -22,7 +23,7 @@
     <% brands.forEach(brand => { %>
     <a href="#" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
         <%= brand.name %>
-        <span class="badge badge-primary badge-pill">-1</span>
+        <span class="badge badge-primary badge-pill"><%=brand.models.length%></span>
     </a>
     <% }); %>
     </ul>
