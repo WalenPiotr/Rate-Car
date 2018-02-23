@@ -20,7 +20,7 @@
 
 
     <% brands.forEach(brand => { %>
-    <a href="/brands/<%= brand._id %>" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+    <a href="/brands/<%= brand._id %>/models" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
         <%= brand.name %>
         <span class="badge badge-primary badge-pill"><%=brand.models.length%></span>
     </a>

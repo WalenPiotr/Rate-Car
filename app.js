@@ -52,7 +52,17 @@ app.post("/brands", function (request, response) {
     response.redirect("/brands");
 });
 
-app.get("/brands/:id", function (request, response) {
+app.delete("/brands/:id", function (request, response) {
+    Brand.findByIdAndRemove(request.params.id, function (error) {
+        if (error) {
+            console.error(error);
+        }
+        response.redirect("/brands");
+    });
+});
+
+
+app.get("/brands/:id/models", function (request, response) {
 
     if (request.query.search) {
         const regex = new RegExp(escapeRegex(request.query.search), 'gi');
@@ -81,7 +91,7 @@ app.get("/brands/:id/new", function (request, response) {
     });
 });
 
-app.post("/brands/:id/", function (request, response) {
+app.post("/brands/:id/models", function (request, response) {
     Brand.findById(request.params.id, function (error, brand) {
         if (error) {
             console.error(error);
@@ -92,12 +102,15 @@ app.post("/brands/:id/", function (request, response) {
                 } else {
                     brand.models.push(model._id);
                     brand.save();
-                    response.redirect("/brands/" + request.params.id);
+                    response.redirect("/brands/" + request.params.id + "/models");
                 }
             });
         }
     });
 });
+
+
+app.get("/brands/:brand_id/models/:model_id")
 
 function escapeRegex(text) {
     return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
