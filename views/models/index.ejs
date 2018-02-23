@@ -5,8 +5,8 @@
         <div class="container">
             <h1><%= brand.name %></h1>
             <p>Please select car model you are interested in!</p>
-            <form action= "/brands/<%= brand._id %>?_method=DELETE"method="POST">
-                <button class="btn btn-danger">Delete</button>
+            <form action= "/brands/<%= brand._id %>?_method=DELETE" method="POST">
+                <button class="btn btn-danger">Delete Current Brand</button>
             </form>
             <a class="btn btn-primary" href="/brands/<%= brand._id %>/new">Add New Model</a>
         </div>

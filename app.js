@@ -10,6 +10,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(__dirname + "/public"));
 
 var methodOverride = require("method-override");
+app.use(methodOverride("_method"));
 
 var Model = require("./models/model");
 var Brand = require("./models/brand");
