@@ -99,7 +99,7 @@ app.post("/brands/:id/models", function (request, response) {
         if (error) {
             console.error(error);
         } else {
-            Model.create({ name: request.body.name }, function (error, model) {
+            Model.create({ name: request.body.name, description: request.body.description }, function (error, model) {
                 if (error) {
                     console.error(error);
                 } else {
@@ -122,8 +122,7 @@ app.get("/brands/:brand_id/models/:model_id", function(request, response){
                 if (error) {
                     console.error(error);
                 } else {
-                    response.send(model);
-                    // response.render("models/show.ejs",{brand: brand, model: model});
+                    response.render("models/show.ejs",{brand: brand, model: model});
                 }
             });
         }
