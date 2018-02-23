@@ -114,7 +114,24 @@ app.post("/brands/:id/models", function (request, response) {
 
 
 app.get("/brands/:brand_id/models/:model_id", function(request, response){
-   response.render("models/show.ejs");
+    Brand.findById(request.params.brand_id, function (error, brand) {
+        if (error) {
+            console.error(error);
+        } else {
+            Model.findById(request.params.model_id, function (error, model) {
+                if (error) {
+                    console.error(error);
+                } else {
+                    response.send(model);
+                    // response.render("models/show.ejs",{brand: brand, model: model});
+                }
+            });
+        }
+    });
+
+
+
+
 });
 
 function escapeRegex(text) {
