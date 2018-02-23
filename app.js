@@ -113,7 +113,9 @@ app.post("/brands/:id/models", function (request, response) {
 });
 
 
-app.get("/brands/:brand_id/models/:model_id")
+app.get("/brands/:brand_id/models/:model_id", function(request, response){
+   response.render("models/show.ejs");
+});
 
 function escapeRegex(text) {
     return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
