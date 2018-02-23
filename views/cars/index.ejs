@@ -4,10 +4,7 @@
     <header class="jumbotron">
         <div class="container">
             <p>Please select car model you are interested in!</p>
-            <form action= "#" method="POST">
-                <button class="btn btn-danger">Delete Current Brand</button>
-            </form>
-            <a class="btn btn-primary" href="#">Add New Model</a>
+            <a class="btn btn-primary" href="/cars/new">Add New Model</a>
         </div>
     </header>
     <form class="input-group mb-3" action="/cars" method="GET">
@@ -16,7 +13,9 @@
             <input type="submit" class="btn btn-outline-secondary" value="Search">
         </div>
     </form>
+    
     <ul class="list-group">
+    
     <% cars.forEach(car => { %>
     <a href="#" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
         <%= car.model %>

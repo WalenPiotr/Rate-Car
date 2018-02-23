@@ -22,43 +22,41 @@ var seed = require("./seeds.js");
 seed();
 
 app.get("/cars", function (request, response) {
-    
-    response.render("cars/index.ejs");
-
-    // if (request.query.search) {
-    //     const regex = new RegExp(escapeRegex(request.query.search), 'gi');
-    //     Brand.find({ "name": regex }, function (error, brands) {
-    //         if (error) {
-    //             console.error(error)
-    //         } else {
-    //             response.render("brands/index.ejs", { brands: brands });
-    //         }
-    //     });
-    // } else {
-    //     Brand.find({}, function (error, brands) {
-    //         if (error) {
-    //             console.error(error)
-    //         } else {
-    //             response.render("brands/index.ejs", { brands: brands });
-    //         }
-    //     });
-    // }
+    if (request.query.search) {
+        const regex = new RegExp(escapeRegex(request.query.search), 'gi');
+        Car.find({ "model": regex }, function (error, cars) {
+            if (error) {
+                console.error(error)
+            } else {
+                response.render("cars/index.ejs", { cars: cars });
+            }
+        });
+    } else {
+        Car.find({}, function (error, cars) {
+            if (error) {
+                console.error(error)
+            } else {
+                response.render("cars/index.ejs", { cars: cars });
+            }
+        });
+    }
 });
 
-// app.get("/cars/new", function (request, response) {
-//     response.render("brands/new.ejs");
-// })
+app.get("/cars/new", function (request, response) {
+    response.render("cars/new.ejs");
+})
 
-// app.post("/cars", function (request, response) {
-//     Brand.create({ name: request.body.name }, function (error, brand) {
-//         if (error) {
-//             console.error(error);
-//         } else {
-//             console.log(brand);
-//         }
-//     })
-//     response.redirect("/brands");
-// });
+app.post("/cars", function (request, response) {
+    Car.create(request.body.car,function(error, car){
+        if(error) {
+            console.error(error);
+        } else {
+            car.save();
+            console.log("Created new car!")
+        }
+    });
+    response.redirect("/cars");
+});
 
 // app.delete("/cars/:id", function (request, response) {
 
