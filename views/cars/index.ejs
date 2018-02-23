@@ -3,24 +3,23 @@
 <div class="container">
     <header class="jumbotron">
         <div class="container">
-            <h1><%= brand.name %></h1>
             <p>Please select car model you are interested in!</p>
-            <form action= "/brands/<%= brand._id %>?_method=DELETE" method="POST">
+            <form action= "#" method="POST">
                 <button class="btn btn-danger">Delete Current Brand</button>
             </form>
-            <a class="btn btn-primary" href="/brands/<%= brand._id %>/new">Add New Model</a>
+            <a class="btn btn-primary" href="#">Add New Model</a>
         </div>
     </header>
-    <form class="input-group mb-3" action="/brands/<%= brand._id %>/models" method="GET">
+    <form class="input-group mb-3" action="/cars" method="GET">
         <input name="search" type="text" class="form-control" placeholder="Search model" aria-label="Search model" aria-describedby="basic-addon2">
         <div class="input-group-append">
             <input type="submit" class="btn btn-outline-secondary" value="Search">
         </div>
     </form>
     <ul class="list-group">
-    <% brand.models.forEach(model => { %>
-    <a href="/brands/<%= brand._id %>/models/<%= model._id %>" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
-        <%= model.name %>
+    <% cars.forEach(car => { %>
+    <a href="#" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+        <%= car.model %>
         <span class="badge badge-primary badge-pill">-1</span>
     </a>
     <% }); %>

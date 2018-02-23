@@ -2,7 +2,8 @@
 <header class="jumbotron">
 <div class="container">
     <h1><%brand.name%> <%= model.name %></h1>
-    <form action= "/brands/<%= brand._id %>?_method=DELETE/models/" method="POST">
+    <p><%=model.description %></p>
+    <form action= "/brands/<%= brand._id %>/models/<%= model._id %>?_method=DELETE" method="POST">
         <button class="btn btn-danger">Delete Current Model</button>
     </form>
 

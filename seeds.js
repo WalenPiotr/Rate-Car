@@ -1,33 +1,30 @@
 var mongoose = require("mongoose");
-var Model = require("./models/model.js")
-var Brand = require("./models/brand.js")
+var Car = require("./models/car.js")
 
-brandNames = ["BMW", "Audi", "Mercedes"];
-function seed() {
-    Brand.remove({},function(error){
+cars = [
+    {brand: "BMW", model: "X3"},
+    {brand: "BMW", model: "X4"},
+    {brand: "BMW", model: "X5"},
+    {brand: "Audi", model: "A3"},
+    {brand: "Audi", model: "A2"},
+    {brand: "Audi", model: "A4"}
+]
+
+    function seed() {
+    Car.remove({},function(error){
         if(error){
             console.error(error);
         } else {
-            console.log("Brands removed")
-            Model.remove({},function(error){
-                if(error){
-                    console.error(error);
-                } else {
-                    console.log("Models removed")
-                    brandNames.forEach(function (brandName) {
-                        Brand.create({name: brandName},function(error, brand){
-                            if(error) {
-                                console.error(error);
-                            } else {
-                                Model.create({name: "modelName"}, function(error, model){
-                                    brand.models.push(model._id);
-                                    brand.save();
-                                    console.log("Create new brand and model")
-                                });            
-                            }
-                        });
-                    });
-                }
+            console.log("Cars removed!")
+            cars.forEach(function (car) {
+                Car.create(car,function(error, car){
+                    if(error) {
+                        console.error(error);
+                    } else {
+                        car.save();
+                        console.log("Created new car!")
+                    }
+                });
             });
         }
     });
