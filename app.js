@@ -17,14 +17,24 @@ app.get("/", function (request, response) {
 });
 
 app.get("/brands", function (request, response) {
-    Brand.find({}, function (error, brands) {
-        if (error) {
-            console.error(error)
-        } else {
-            console.log(brands);
-            response.render("brands/index.ejs", { brands: brands });
-        }
-    });
+    if (request.query.search) {
+        const regex = new RegExp(escapeRegex(request.query.search), 'gi');
+        Brand.find({ "name": regex }, function (error, brands) {
+            if (error) {
+                console.error(error)
+            } else {
+                response.render("brands/index.ejs", { brands: brands });
+            }
+        });
+    } else {
+        Brand.find({}, function (error, brands) {
+            if (error) {
+                console.error(error)
+            } else {
+                response.render("brands/index.ejs", { brands: brands });
+            }
+        });
+    }
 });
 
 app.get("/brands/new", function (request, response) {
@@ -32,8 +42,8 @@ app.get("/brands/new", function (request, response) {
 })
 
 app.post("/brands", function (request, response) {
-    Brand.create({name: request.body.name}, function(error, brand){
-        if(error){
+    Brand.create({ name: request.body.name }, function (error, brand) {
+        if (error) {
             console.error(error);
         } else {
             console.log(brand);
@@ -42,39 +52,43 @@ app.post("/brands", function (request, response) {
     response.redirect("/brands");
 });
 
-app.get("/brands/:id", function(request, response){
-    Brand.findById(request.params.id).populate("models").exec(function(error, brand){
-        if(error) {
+app.get("/brands/:id", function (request, response) {
+    Brand.findById(request.params.id).populate("models").exec(function (error, brand) {
+        if (error) {
             console.error(error);
         } else {
-            response.render("models/index.ejs", {brand: brand});
+            response.render("models/index.ejs", { brand: brand });
         }
     });
 });
 
-app.get("/brands/:id/new",function(request, response){
-    Brand.findById(request.params.id, function(error, brand){
-        response.render("models/new.ejs", {brand: brand});
+app.get("/brands/:id/new", function (request, response) {
+    Brand.findById(request.params.id, function (error, brand) {
+        response.render("models/new.ejs", { brand: brand });
     });
 });
 
-app.post("/brands/:id/",function(request, response){
-    Brand.findById(request.params.id, function(error, brand){
-        if(error) {
+app.post("/brands/:id/", function (request, response) {
+    Brand.findById(request.params.id, function (error, brand) {
+        if (error) {
             console.error(error);
         } else {
-            Model.create({name: request.body.name}, function(error, model){
-                if(error) {
+            Model.create({ name: request.body.name }, function (error, model) {
+                if (error) {
                     console.error(error);
                 } else {
                     brand.models.push(model._id);
                     brand.save();
-                    response.redirect("/brands/"+request.params.id);
+                    response.redirect("/brands/" + request.params.id);
                 }
-            });     
+            });
         }
     });
 });
+
+function escapeRegex(text) {
+    return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
+};
 
 app.listen(process.env.PORT, process.env.IP, function () {
     console.log("Server has started on: ");

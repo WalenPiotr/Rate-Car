@@ -8,14 +8,13 @@
             <a class="btn btn-primary" href="/brands/new">Add New Brand</a>
         </div>
     </header>
-
-    <div class="input-group mb-3">
-        <input type="text" class="form-control" placeholder="Search brand" aria-label="Search brand" aria-describedby="basic-addon2">
+    <form class="input-group mb-3" action="/brands" method="GET">
+        <input name="search" type="text" class="form-control" placeholder="Search brand" aria-label="Search brand" aria-describedby="basic-addon2">
         <div class="input-group-append">
-            <button class="btn btn-outline-secondary" type="button">Search</button>
+            <input type="submit" class="btn btn-outline-secondary" value="Search">
         </div>
-    </div>
-    
+    </form>
+
 
     <ul class="list-group">
 
