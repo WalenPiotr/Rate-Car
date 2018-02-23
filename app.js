@@ -53,13 +53,26 @@ app.post("/brands", function (request, response) {
 });
 
 app.get("/brands/:id", function (request, response) {
-    Brand.findById(request.params.id).populate("models").exec(function (error, brand) {
-        if (error) {
-            console.error(error);
-        } else {
-            response.render("models/index.ejs", { brand: brand });
-        }
-    });
+
+    if (request.query.search) {
+        const regex = new RegExp(escapeRegex(request.query.search), 'gi');
+        Brand.findById(request.params.id).populate({ path: "models", match: { name: { $regex: regex } } }).exec(function (error, brand) {
+            if (error) {
+                console.error(error);
+            } else {
+                response.render("models/index.ejs", { brand: brand });
+            }
+        });
+    } else {
+        Brand.findById(request.params.id).populate({ path: "models" }).exec(function (error, brand) {
+            if (error) {
+                console.error(error);
+            } else {
+                response.render("models/index.ejs", { brand: brand });
+            }
+        });
+    }
+
 });
 
 app.get("/brands/:id/new", function (request, response) {
