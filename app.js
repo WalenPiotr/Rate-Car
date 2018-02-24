@@ -102,13 +102,6 @@ app.post("/cars/:id/comments", function (request, response) {
     });
 });
 
-
-
-
-function escapeRegex(text) {
-    return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
-};
-
 app.listen(process.env.PORT, process.env.IP, function () {
     console.log("Server has started on: ");
     console.log("PORT: " + process.env.PORT);
