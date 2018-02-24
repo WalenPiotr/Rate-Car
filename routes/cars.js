@@ -29,6 +29,7 @@ router.get("/cars", function (request, response) {
     }
 });
 
+// Create
 router.get("/cars/new", middleware.isLoggedIn, function (request, response) {
     response.render("cars/new.ejs");
 })
@@ -45,6 +46,7 @@ router.post("/cars", middleware.isLoggedIn, function (request, response) {
     response.redirect("/cars");
 });
 
+// Read
 router.get("/cars/:id", function (request, response) {
     Car.findById(request.params.id).populate("comments").exec(function (error, car) {
         if (error) {
@@ -52,6 +54,17 @@ router.get("/cars/:id", function (request, response) {
         } else {
             console.log(car);
             response.render("cars/show.ejs", { car: car });
+        }
+    });
+});
+
+// Destroy
+router.delete("/cars/:id", function (request, response) {
+    Car.findByIdAndRemove(request.params.id, function (error) {
+        if(error) {
+            console.log(error);
+        } else {
+            response.redirect("/cars");
         }
     });
 });

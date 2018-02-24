@@ -4,7 +4,7 @@
         <h1><%= car.brand%> <%= car.model %></h1>
         <p><%= car.description %></p>
         <a class="btn btn-primary" href="/cars/<%= car._id %>/comments/new">Add New Comment</a>
-        <form class=".form-inline" action= "#" method="POST">
+        <form class=".form-inline" action= "/cars/<%= car._id %>/?_method=DELETE" method="POST">
             <button class="btn btn-danger">Delete Current Model</button>
         </form>
     </header>
