@@ -19,7 +19,7 @@
     <% cars.forEach(car => { %>
     <a href="/cars/<%= car._id %>" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
         <span> <%= car.brand %> - <%= car.model %> </span>
-        <span class="badge badge-primary badge-pill">-1</span>
+        <span class="badge badge-primary badge-pill"><%= car.comments.length %></span>
     </a>
     <% }); %>
 

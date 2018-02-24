@@ -1,13 +1,24 @@
 <% include ../partials/header.ejs %>
 <header class="jumbotron">
-<div class="container">
-    <h1><%car.brand%> <%= car.model %></h1>
-    <p><%=car.description %></p>
-    <form action= "#" method="POST">
-        <button class="btn btn-danger">Delete Current Model</button>
-    </form>
-    <a class="btn btn-primary" href="#">Add New Comment</a>
-</div>
+    <div class="container">
+        <h1><%= car.brand%> <%= car.model %></h1>
+        <p><%= car.description %></p>
+        <form action= "#" method="POST">
+            <button class="btn btn-danger">Delete Current Model</button>
+        </form>
+        <a class="btn btn-primary" href="/cars/<%= car._id %>/comments/new">Add New Comment</a>
+    </div>
 </header>
+
+<% car.comments.forEach(function(comment){%>
+<div class="row">
+    <div class="col-md-12">
+        <strong><%= comment.author %></strong>
+        <span class="pull-right">10 days ago </span>
+        <p><%= comment.text %></p>
+    </div>
+</div>
+<% }); %>
+
 
 <% include ../partials/footer.ejs %>
