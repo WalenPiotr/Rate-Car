@@ -4,6 +4,8 @@ var router = express.Router();
 var Comment = require("../models/comment.js");
 var Car = require("../models/car.js");
 
+var middleware = require("../middleware/index.js");
+
 router.get("/cars", function (request, response) {
     if (request.query.search) {
         Car.find({ $text: { $search: request.query.search } }, { score: { $meta: "textScore" } })
@@ -27,11 +29,11 @@ router.get("/cars", function (request, response) {
     }
 });
 
-router.get("/cars/new", function (request, response) {
+router.get("/cars/new", middleware.isLoggedIn, function (request, response) {
     response.render("cars/new.ejs");
 })
 
-router.post("/cars", function (request, response) {
+router.post("/cars", middleware.isLoggedIn, function (request, response) {
     Car.create(request.body.car, function (error, car) {
         if (error) {
             console.log(error);
@@ -54,7 +56,7 @@ router.get("/cars/:id", function (request, response) {
     });
 });
 
-router.get("/cars/:id/comments/new", function (request, response) {
+router.get("/cars/:id/comments/new", middleware.isLoggedIn,  function (request, response) {
     Car.findById(request.params.id, function (error,car) {
         if (error) {
             response.redirect("/cars");
@@ -64,7 +66,7 @@ router.get("/cars/:id/comments/new", function (request, response) {
     });
 });
 
-router.post("/cars/:id/comments", function (request, response) {
+router.post("/cars/:id/comments", middleware.isLoggedIn, function (request, response) {
     Car.findById(request.params.id, function (error, car) {
         if (error) {
             response.redirect("/cars");

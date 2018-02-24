@@ -55,12 +55,6 @@ router.get("/logout", function (request, response) {
     response.redirect("/cars");
 });
 
-function isLoggedIn(request, response, next) {
-    if (request.isAuthenticated()) {
-        return next();
-    }
-    response.redirect("/login");
-}
 
 
 module.exports = router;
