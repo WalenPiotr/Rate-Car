@@ -23,11 +23,13 @@ seed();
 
 app.get("/cars", function (request, response) {
     if (request.query.search) {
-        const regex = new RegExp(escapeRegex(request.query.search), 'gi');
-        Car.find({ "model": regex }, function (error, cars) {
+        // const regex = new RegExp(escapeRegex(request.query.search), 'gi');
+        Car.find({ $text: { $search: request.query.search } }, function (error, cars) {
+            
             if (error) {
                 console.error(error)
             } else {
+                console.log(cars)
                 response.render("cars/index.ejs", { cars: cars });
             }
         });
