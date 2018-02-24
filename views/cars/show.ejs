@@ -7,6 +7,9 @@
         <form class=".form-inline" action= "/cars/<%= car._id %>/?_method=DELETE" method="POST">
             <button class="btn btn-danger">Delete Current Model</button>
         </form>
+        <form class=".form-inline" action= "/cars/<%= car._id %>/edit" method="GET">
+            <button class="btn btn-warning">Edit Current Model</button>
+        </form>
     </header>
     <% car.comments.forEach(function(comment){%>
         <div class="list-group">

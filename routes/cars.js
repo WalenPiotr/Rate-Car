@@ -58,10 +58,33 @@ router.get("/cars/:id", function (request, response) {
     });
 });
 
+//Update 
+
+router.get("/cars/:id/edit", function (request, response) {
+    Car.findById(request.params.id, function (error, car) {
+        if (error) {
+            console.log(error);
+        } else {
+            response.render("cars/edit.ejs", { car: car });
+        }
+    });
+});
+
+router.put("/cars/:id", function (request, response) {
+    Car.findByIdAndUpdate(request.params.id, request.body.car, function (error, car) {
+        if (error) {
+            console.log(error);
+            response.redirect("/cars");
+        } else {
+            response.redirect("/cars/" + request.params.id);
+        }
+    });
+});
+
 // Destroy
 router.delete("/cars/:id", function (request, response) {
     Car.findByIdAndRemove(request.params.id, function (error) {
-        if(error) {
+        if (error) {
             console.log(error);
         } else {
             response.redirect("/cars");
