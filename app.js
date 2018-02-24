@@ -13,7 +13,6 @@ var methodOverride = require("method-override");
 app.use(methodOverride("_method"));
 
 
-
 var indexRoutes = require("./routes/index")
 var carRoutes = require("./routes/cars")
 
