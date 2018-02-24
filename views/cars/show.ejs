@@ -1,13 +1,12 @@
 <% include ../partials/header.ejs %>
 <header class="jumbotron">
 <div class="container">
-    <h1><%brand.name%> <%= model.name %></h1>
-    <p><%=model.description %></p>
-    <form action= "/brands/<%= brand._id %>/models/<%= model._id %>?_method=DELETE" method="POST">
+    <h1><%car.brand%> <%= car.model %></h1>
+    <p><%=car.description %></p>
+    <form action= "#" method="POST">
         <button class="btn btn-danger">Delete Current Model</button>
     </form>
-
-    <a class="btn btn-primary" href="/brands/<%= brand._id %>/new">Add New Comment</a>
+    <a class="btn btn-primary" href="#">Add New Comment</a>
 </div>
 </header>
 

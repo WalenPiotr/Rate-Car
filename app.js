@@ -24,15 +24,16 @@ seed();
 app.get("/cars", function (request, response) {
     if (request.query.search) {
         // const regex = new RegExp(escapeRegex(request.query.search), 'gi');
-        Car.find({ $text: { $search: request.query.search } }, function (error, cars) {
-            
-            if (error) {
-                console.error(error)
-            } else {
-                console.log(cars)
-                response.render("cars/index.ejs", { cars: cars });
-            }
-        });
+        Car.find({ $text: { $search: request.query.search } }, { score: { $meta: "textScore" } })
+            .sort({ score: { $meta: "textScore" } })
+            .exec(function (error, cars) {
+                if (error) {
+                    console.error(error)
+                } else {
+                    console.log(cars)
+                    response.render("cars/index.ejs", { cars: cars });
+                }
+            });
     } else {
         Car.find({}, function (error, cars) {
             if (error) {
@@ -49,8 +50,8 @@ app.get("/cars/new", function (request, response) {
 })
 
 app.post("/cars", function (request, response) {
-    Car.create(request.body.car,function(error, car){
-        if(error) {
+    Car.create(request.body.car, function (error, car) {
+        if (error) {
             console.error(error);
         } else {
             car.save();
@@ -60,15 +61,11 @@ app.post("/cars", function (request, response) {
     response.redirect("/cars");
 });
 
-// app.delete("/cars/:id", function (request, response) {
-
-//     Brand.findByIdAndRemove(request.params.id, function (error) {
-//         if (error) {
-//             console.error(error);
-//         }
-//         response.redirect("/brands");
-//     });
-// });
+app.get("/cars/:id",function(request,response){
+    Car.findById(request.params.id, function(error, car){
+        response.render("cars/show.ejs", {car: car});
+    });
+});
 
 
 function escapeRegex(text) {
