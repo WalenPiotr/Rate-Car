@@ -1,4 +1,5 @@
 var mongoose = require("mongoose");
+var User = require("./user.js");
 
 var schema = new mongoose.Schema(
     {
