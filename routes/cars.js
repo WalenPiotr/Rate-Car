@@ -35,7 +35,13 @@ router.get("/cars/new", middleware.isLoggedIn, function (request, response) {
 })
 
 router.post("/cars", middleware.isLoggedIn, function (request, response) {
-    Car.create(request.body.car, function (error, car) {
+    var author = {
+        id: request.user.id,
+        username: request.user.username
+    }
+    car = request.body.car;
+    car.author = author;
+    Car.create(car, function (error, car) {
         if (error) {
             console.log(error);
         } else {
