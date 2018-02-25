@@ -31,7 +31,7 @@ router.get("/register", function (request, response) {
 });
 
 router.post("/register", function (request, response) {
-    User.register(new User({ username: request.body.username }), request.body.password, function (error, user) {
+    User.register(new User({ username: request.body.username}), request.body.password, function (error, user) {
         if (error) {
             return response.render("register.ejs");
         }

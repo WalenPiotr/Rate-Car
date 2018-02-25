@@ -1,4 +1,5 @@
 <% include ../partials/header.ejs %>
+
 <div class="container">
     <header class="jumbotron">
         <div class="flex-column align-items-start">
@@ -6,7 +7,8 @@
                 <h1><%= car.brand%> <%= car.model %></h1>
                 <div>
 
-                <% if(currentUser && car.author.id.equals(currentUser._id)) { %>
+                <% if(currentUser && (car.author.id.equals(currentUser._id) || currentUser.admin === true)) { %>
+
                     <form class=".form-inline" action= "/cars/<%= car._id %>/?_method=DELETE" method="POST">
                         <input type="submit" id="delete-form" class="hidden" />
                     </form>
@@ -15,7 +17,7 @@
                     </form>
 
                     <div class="dropdown">
-                        <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <button class="btn btn-sm btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="fas fa-cog fa-lg"></i>
                         </button>
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
@@ -31,23 +33,23 @@
         <a class="btn btn-primary btn-block" href=" /cars/<%= car._id %>/comments/new" >Add New Comment</a>
     </header>
     <% car.comments.forEach(function(comment){%>
-        <% if(currentUser && comment.author.id.equals(currentUser._id)) { %>
+        <% if(currentUser && (comment.author.id.equals(currentUser._id) || currentUser.admin === true)) { %>
             <form class=".form-inline" action= "/cars/<%= car._id %>/comments/<%= comment._id %>?_method=DELETE" method="POST">
                 <input type="submit" id="delete-form-comment-<%= comment._id %>" class="hidden" />
             </form>
             <form class=".form-inline" action= "/cars/<%= car._id %>/comments/<%= comment._id %>/edit" method="GET">
                 <input type="submit" id="edit-form-comment-<%= comment._id %>" class="hidden" />
             </form>
-            <div class="list-group">
         <% } %>
+            <div class="list-group">
 
             <li class="list-group-item list-group-item-action flex-column align-items-start">
                 <div class="d-flex w-100 justify-content-between">
                     <h5 class="mb-1"><%= comment.title %></h5>
-                    <% if(currentUser && comment.author.id.equals(currentUser._id)) { %>
+                    <% if(currentUser && (comment.author.id.equals(currentUser._id) || currentUser.admin === true)) { %>
                     <div class="dropdown">
                         <button class="btn btn-sm btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class="fas fa-cog"></i>
+                            <i class="fas fa-cog fa-lg"></i>
                         </button>
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                             <label for="delete-form-comment-<%= comment._id %>" tabindex="0" class="dropdown-item">Delete</label>
