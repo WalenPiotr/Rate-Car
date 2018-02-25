@@ -5,6 +5,8 @@
             <div class="d-flex w-100 justify-content-between">
                 <h1><%= car.brand%> <%= car.model %></h1>
                 <div>
+
+                <% if(currentUser && car.author.id.equals(currentUser._id)) { %>
                     <form class=".form-inline" action= "/cars/<%= car._id %>/?_method=DELETE" method="POST">
                         <input type="submit" id="delete-form" class="hidden" />
                     </form>
@@ -21,7 +23,7 @@
                             <label for="edit-form" tabindex="0" class="dropdown-item">Edit</label>
                         </div>
                     </div>
-
+                <% } %>
                 </div>
             </div>
         </div>
@@ -29,17 +31,20 @@
         <a class="btn btn-primary btn-block" href=" /cars/<%= car._id %>/comments/new" >Add New Comment</a>
     </header>
     <% car.comments.forEach(function(comment){%>
-        <form class=".form-inline" action= "/cars/<%= car._id %>/comments/<%= comment._id %>?_method=DELETE" method="POST">
-            <input type="submit" id="delete-form-comment-<%= comment._id %>" class="hidden" />
-        </form>
-        <form class=".form-inline" action= "/cars/<%= car._id %>/comments/<%= comment._id %>/edit" method="GET">
-            <input type="submit" id="edit-form-comment-<%= comment._id %>" class="hidden" />
-        </form>
-        <div class="list-group">
+        <% if(currentUser && comment.author.id.equals(currentUser._id)) { %>
+            <form class=".form-inline" action= "/cars/<%= car._id %>/comments/<%= comment._id %>?_method=DELETE" method="POST">
+                <input type="submit" id="delete-form-comment-<%= comment._id %>" class="hidden" />
+            </form>
+            <form class=".form-inline" action= "/cars/<%= car._id %>/comments/<%= comment._id %>/edit" method="GET">
+                <input type="submit" id="edit-form-comment-<%= comment._id %>" class="hidden" />
+            </form>
+            <div class="list-group">
+        <% } %>
 
             <li class="list-group-item list-group-item-action flex-column align-items-start">
                 <div class="d-flex w-100 justify-content-between">
                     <h5 class="mb-1"><%= comment.title %></h5>
+                    <% if(currentUser && comment.author.id.equals(currentUser._id)) { %>
                     <div class="dropdown">
                         <button class="btn btn-sm btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="fas fa-cog"></i>
@@ -49,6 +54,7 @@
                             <label for="edit-form-comment-<%= comment._id %>" tabindex="0" class="dropdown-item">Edit</label>
                         </div>
                     </div>
+                    <% } %>
                 </div>
                 <p class="mb-1"><p><%= comment.text %></p></p>
 
