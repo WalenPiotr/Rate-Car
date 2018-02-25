@@ -13,7 +13,7 @@
                     </form>
 
                     <div class="dropdown">
-                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="fas fa-cog fa-lg"></i>
                         </button>
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
@@ -26,10 +26,8 @@
             </div>
         </div>
         <p><%= car.description %></p>
+        <a class="btn btn-primary btn-block" href=" /cars/<%= car._id %>/comments/new" >Add New Comment</a>
     </header>
-
-    <a class="btn btn-primary btn-lg btn-block" href="/cars/<%= car._id %>/comments/new">Add New Comment</a>
-    
     <% car.comments.forEach(function(comment){%>
         <div class="list-group">
 
