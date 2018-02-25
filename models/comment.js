@@ -4,6 +4,7 @@ var User = require("./user.js");
 var schema = new mongoose.Schema(
     {
     title: String,
+    text: String,
     author: {
         id: {
             type: mongoose.Schema.Types.ObjectId,
@@ -11,8 +12,8 @@ var schema = new mongoose.Schema(
         },
         username: String
     },
-    text: String
-    }
+    },
+    {timestamps: true}
 );
 
 module.exports = mongoose.model("Comment", schema);

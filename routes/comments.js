@@ -4,11 +4,14 @@ var router = express.Router();
 var Comment = require("../models/comment.js");
 var Car = require("../models/car.js");
 
+var mongoose = require("mongoose");
+
 var middleware = require("../middleware/index.js");
 
 
-router.get("/cars/:id/comments/new", middleware.isLoggedIn,  function (request, response) {
-    Car.findById(request.params.id, function (error,car) {
+// Create
+router.get("/cars/:id/comments/new", middleware.isLoggedIn, function (request, response) {
+    Car.findById(request.params.id, function (error, car) {
         if (error) {
             response.redirect("/cars");
         } else {
@@ -37,6 +40,46 @@ router.post("/cars/:id/comments", middleware.isLoggedIn, function (request, resp
         }
     });
 });
+
+//Update
+router.get("/cars/:id/comments/:comment_id/edit", middleware.checkCommentOwnership, function (request, response) {
+    Comment.findById(request.params.comment_id, function (error, comment) {
+        if (error) {
+            response.redirect("/cars/" + request.params.id);
+        } else {
+            response.render("comments/edit.ejs", { car_id: request.params.id, comment: comment });
+        }
+    });
+});
+
+router.put("/cars/:id/comments/:comment_id", middleware.checkCommentOwnership, function (request, response) {
+    Comment.findByIdAndUpdate(request.params.comment_id, request.body.comment, function (error, comment) {
+        if (error) {
+            console.log(error);
+        }
+        response.redirect("/cars/" + request.params.id);
+    });
+});
+
+// Destroy
+router.delete("/cars/:id/comments/:comment_id", middleware.checkCommentOwnership, function (request, response) {
+    Comment.findByIdAndRemove(request.params.comment_id, function (error) {
+        if (error) {
+            console.log(error);
+        } else {
+            Car.findById(request.params.id, function(error, car){
+                if(error){
+                    console.log(error);
+                } else {
+                    car.comments.remove(request.params.comment_id);
+                    car.save();
+                }
+            });
+            response.redirect("/cars");
+        }
+    });
+});
+
 
 module.exports = router;
 
