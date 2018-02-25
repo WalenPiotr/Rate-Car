@@ -26,6 +26,8 @@ router.post("/cars/:id/comments", middleware.isLoggedIn, function (request, resp
                 if (error) {
                     console.log(error);
                 } else {
+                    comment.author.id = request.user._id;
+                    comment.author.username = request.user.username;
                     comment.save();
                     car.comments.push(comment._id);
                     car.save();

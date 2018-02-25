@@ -60,7 +60,7 @@ router.get("/cars/:id", function (request, response) {
 
 //Update 
 
-router.get("/cars/:id/edit", function (request, response) {
+router.get("/cars/:id/edit", middleware.checkOwnership(Car), function (request, response) {
     Car.findById(request.params.id, function (error, car) {
         if (error) {
             console.log(error);
@@ -70,7 +70,7 @@ router.get("/cars/:id/edit", function (request, response) {
     });
 });
 
-router.put("/cars/:id", function (request, response) {
+router.put("/cars/:id", middleware.checkOwnership(Car), function (request, response) {
     Car.findByIdAndUpdate(request.params.id, request.body.car, function (error, car) {
         if (error) {
             console.log(error);
@@ -82,7 +82,7 @@ router.put("/cars/:id", function (request, response) {
 });
 
 // Destroy
-router.delete("/cars/:id", function (request, response) {
+router.delete("/cars/:id", middleware.checkOwnership(Car), function (request, response) {
     Car.findByIdAndRemove(request.params.id, function (error) {
         if (error) {
             console.log(error);
