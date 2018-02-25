@@ -1,16 +1,35 @@
 <% include ../partials/header.ejs %>
 <div class="container">
     <header class="jumbotron">
-        <h1><%= car.brand%> <%= car.model %></h1>
+        <div class="flex-column align-items-start">
+            <div class="d-flex w-100 justify-content-between">
+                <h1><%= car.brand%> <%= car.model %></h1>
+                <div>
+                    <form class=".form-inline" action= "/cars/<%= car._id %>/?_method=DELETE" method="POST">
+                        <input type="submit" id="delete-form" class="hidden" />
+                    </form>
+                    <form class=".form-inline" action= "/cars/<%= car._id %>/edit" method="GET">
+                        <input type="submit" id="edit-form" class="hidden" />
+                    </form>
+
+                    <div class="dropdown">
+                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fas fa-cog fa-lg"></i>
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <label for="delete-form" tabindex="0" class="dropdown-item">Delete</label>
+                            <label for="edit-form" tabindex="0" class="dropdown-item">Edit</label>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
         <p><%= car.description %></p>
-        <a class="btn btn-primary" href="/cars/<%= car._id %>/comments/new">Add New Comment</a>
-        <form class=".form-inline" action= "/cars/<%= car._id %>/?_method=DELETE" method="POST">
-            <button class="btn btn-danger">Delete Current Model</button>
-        </form>
-        <form class=".form-inline" action= "/cars/<%= car._id %>/edit" method="GET">
-            <button class="btn btn-warning">Edit Current Model</button>
-        </form>
     </header>
+
+    <a class="btn btn-primary btn-lg btn-block" href="/cars/<%= car._id %>/comments/new">Add New Comment</a>
+    
     <% car.comments.forEach(function(comment){%>
         <div class="list-group">
 
