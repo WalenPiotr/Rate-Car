@@ -15,7 +15,7 @@ var middleware = {
                 if (error) {
                     response.redirect("back");
                 } else {
-                    if (car.author.id.equals(request.user._id)) {
+                    if (car.author.id.equals(request.user._id) || request.user.admin === true) {
                         next();
                     } else {
                         response.redirect("back");
@@ -34,7 +34,7 @@ var middleware = {
                     response.redirect("back");
                     console.log(error);
                 } else {
-                    if (comment.author.id.equals(request.user._id)) {
+                    if (comment.author.id.equals(request.user._id) || request.user.admin === true) {
                         next();
                     } else {
                         console.log(comment.author);
