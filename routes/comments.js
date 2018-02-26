@@ -34,6 +34,7 @@ router.post("/cars/:id/comments", middleware.isLoggedIn, function (request, resp
                     comment.save();
                     car.comments.push(comment._id);
                     car.save();
+                    request.flash("success", "Comment has been created.");
                     response.redirect("/cars/" + request.params.id);
                 }
             });
@@ -57,6 +58,7 @@ router.put("/cars/:id/comments/:comment_id", middleware.checkCommentOwnership, f
         if (error) {
             console.log(error);
         }
+        request.flash("success", "Comment has been updated.");
         response.redirect("/cars/" + request.params.id);
     });
 });
@@ -75,7 +77,8 @@ router.delete("/cars/:id/comments/:comment_id", middleware.checkCommentOwnership
                     car.save();
                 }
             });
-            response.redirect("/cars");
+            request.flash("success", "Comment has been removed.");
+            response.redirect("back");
         }
     });
 });

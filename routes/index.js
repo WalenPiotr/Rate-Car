@@ -20,6 +20,7 @@ passport.deserializeUser(User.deserializeUser());
 var flash = require("connect-flash");
 router.use(flash());
 
+
 router.use(function (request, response, next) {
     response.locals.currentUser = request.user;
     response.locals.error = request.flash("error");
@@ -36,11 +37,12 @@ router.get("/register", function (request, response) {
 });
 
 router.post("/register", function (request, response) {
-    User.register(new User({ username: request.body.username}), request.body.password, function (error, user) {
+    User.register(new User({ username: request.body.username }), request.body.password, function (error, user) {
         if (error) {
             return response.render("register.ejs");
         }
         passport.authenticate("local")(request, response, function () {
+            request.flash("success", "You have been successfully registered and logged in.");
             response.redirect("/cars");
         });
     });
@@ -51,11 +53,17 @@ router.get("/login", function (request, response) {
 });
 
 
-router.post("/login", passport.authenticate("local", { successRedirect: "/cars", failureRedirect: "/login" }), function (request, response) {
+router.post("/login", passport.authenticate("local", {
+    successRedirect: "/cars",
+    failureRedirect: "/login",
+    successFlash: 'Welcome to RateCar!',
+    failureFlash: 'Invalid username or password.'
+}), function (request, response) {
 }
 );
 
 router.get("/logout", function (request, response) {
+    request.flash("success", "You have been successfully logged out!");
     request.logout();
     response.redirect("/cars");
 });

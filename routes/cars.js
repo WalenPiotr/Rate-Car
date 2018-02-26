@@ -49,6 +49,7 @@ router.post("/cars", middleware.isLoggedIn, function (request, response) {
             console.log("Created new car!")
         }
     });
+    request.flash("success", "Car has been created.");
     response.redirect("/cars");
 });
 
@@ -71,6 +72,7 @@ router.get("/cars/:id/edit", middleware.checkCarOwnership, function (request, re
             console.log(error);
         } else {
             response.render("cars/edit.ejs", { car: car });
+            
         }
     });
 });
@@ -81,6 +83,7 @@ router.put("/cars/:id", middleware.checkCarOwnership, function (request, respons
             console.log(error);
             response.redirect("/cars");
         } else {
+            request.flash("success", "Car has been updated.");
             response.redirect("/cars/" + request.params.id);
         }
     });
@@ -92,6 +95,7 @@ router.delete("/cars/:id", middleware.checkCarOwnership, function (request, resp
         if (error) {
             console.log(error);
         } else {
+            request.flash("success", "Car has been removed.");
             response.redirect("/cars");
         }
     });
