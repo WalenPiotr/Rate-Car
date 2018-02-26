@@ -23,6 +23,7 @@ app.listen(process.env.PORT, process.env.IP, function () {
     console.log("Server has started on: ");
     console.log("PORT: " + process.env.PORT);
     console.log("IP: " + process.env.IP);
+    console.log("DBURL: " + process.env.DBURL);
 });
 
 
