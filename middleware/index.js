@@ -6,6 +6,7 @@ var middleware = {
         if (request.isAuthenticated()) {
             return next();
         }
+        request.flash("error", "You need to be logged in to do that!");
         response.redirect("/login");
     },
 
@@ -13,16 +14,19 @@ var middleware = {
         if (request.isAuthenticated()) {
             Car.findById(request.params.id, function (error, car) {
                 if (error) {
+                    request.flash("error", "Car not found!");
                     response.redirect("back");
                 } else {
                     if (car.author.id.equals(request.user._id) || request.user.admin === true) {
                         next();
                     } else {
+                        request.flash("error", "You do not have permission to do that!");
                         response.redirect("back");
                     }
                 }
             });
         } else {
+            request.flash("error", "You need to be logged in to do that!");
             response.redirect("back");
         }
     },
@@ -31,18 +35,19 @@ var middleware = {
         if (request.isAuthenticated()) {
             Comment.findById(request.params.comment_id, function (error, comment) {
                 if (error) {
+                    request.flash("error", "Car not found!");
                     response.redirect("back");
-                    console.log(error);
                 } else {
                     if (comment.author.id.equals(request.user._id) || request.user.admin === true) {
                         next();
                     } else {
-                        console.log(comment.author);
+                        request.flash("error", "You do not have permission to do that!");
                         response.redirect("back");
                     }
                 }
             });
         } else {
+            request.flash("error", "You need to be logged in to do that!");
             response.redirect("/login");
         }
     }

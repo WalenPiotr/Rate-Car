@@ -17,8 +17,13 @@ passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
+var flash = require("connect-flash");
+router.use(flash());
+
 router.use(function (request, response, next) {
     response.locals.currentUser = request.user;
+    response.locals.error = request.flash("error");
+    response.locals.success = request.flash("success");
     next();
 });
 
