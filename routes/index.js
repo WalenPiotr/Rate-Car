@@ -40,15 +40,78 @@ router.get("/register", (request, response) => {
 });
 
 router.post("/register", (request, response) => {
-    User.register(new User({ username: request.body.username, email: request.body.email }), request.body.password, function (error, user) {
+    async.waterfall(
+        [
+            (callback) => {
+                crypto.randomBytes(20, (error, buffer) => {
+                    var token = buffer.toString("hex");
+                    console.log(token)
+                    callback(error, token);
+                });
+            },
+
+            (token, callback) => {
+                var user = new User({
+                    username: request.body.username,
+                    email: request.body.email,
+                    activationToken: token,
+                });
+
+                User.register(user, request.body.password, function (error, user) {
+                    if (error) {
+                        console.log(error);
+                        return response.render("register.ejs");
+                    }
+                    callback(error, token, user);
+                });
+            },
+
+            (token, user, callback) => {
+                var smtpTransport = nodemailer.createTransport({
+                    service: "Gmail",
+                    auth: {
+                        user: "321placeholder123@gmail.com",
+                        pass: process.env.MAILPASSWORD
+                    },
+
+                });
+                var mailOptions = {
+                    to: user.email,
+                    from: "321placeholder123@gmail.com",
+                    subject: "Rate Car Account Activation",
+                    text: "You are receiving this because you (or someone else) have created new account on RateCar.\n\n" +
+                        "Please click on the following link, or paste this into your browser to activate account:\n\n" +
+                        "http://" + request.headers.host + "/register/" + token + "\n\n" +
+                        "If you did not request this, please ignore this email.\n"
+                }
+                smtpTransport.sendMail(mailOptions, error => {
+                    console.log("Mail sent");
+                    request.flash("success", "An e-mail has been sent to " + user.email + " with further instructions.");
+                    response.redirect("/cars");
+                    callback(error, "done");
+                });
+            }
+        ]
+    );
+
+
+
+});
+
+router.get("/register/:token", (request, response) => {
+    console.log(request.params.token);
+    User.findOneAndUpdate({ activationToken: request.params.token }, { isActivated: true }, (error, user) => {
         if (error) {
             console.log(error);
-            return response.render("register.ejs");
-        }
-        passport.authenticate("local")(request, response, function () {
-            request.flash("success", "You have been successfully registered and logged in.");
+            response.redirect("/");
+        } else {
+            request.flash("success", "Your account has been activated.");
             response.redirect("/cars");
-        });
+            // passport.authenticate("local")(request, response, () => {
+            //     request.flash("success", "You have been successfully registered and logged in.");
+            //     response.redirect("/cars");
+            // });
+        }
     });
 });
 
@@ -72,8 +135,8 @@ router.get("/logout", (request, response) => {
     response.redirect("/cars");
 });
 
-router.get('/forgot', function(req, res) {
-    res.render('forgot.ejs');
+router.get('/forgot', (request, response) => {
+    response.render('forgot.ejs');
 });
 
 router.post("/forgot", (request, response, next) => {

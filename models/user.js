@@ -6,9 +6,12 @@ var UserSchema = new mongoose.Schema({
     password: {type:String},
     isAdmin: {type: Boolean, default: false},
     email: {type: String, unique: true, required: true},
+    isActivated: {type: Boolean, default: false},
+    activationToken: String,
     resetPasswordToken: String,
     resetPasswordExpires: Date
 }); 
+
 UserSchema.plugin(passportLocalMongoose);
 
 module.exports = mongoose.model("User", UserSchema);

@@ -4,10 +4,17 @@ var Car = require("../models/car.js");
 var middleware = {
     isLoggedIn: function (request, response, next) {
         if (request.isAuthenticated()) {
-            return next();
+            if(request.user.isActivated === true) {
+                return next();
+            } else {
+                request.flash("error", "Please activate your account.");
+                response.redirect("back")
+            }
+
+        } else {
+            request.flash("error", "You need to be logged in.");
+            response.redirect("/login");
         }
-        request.flash("error", "You need to be logged in.");
-        response.redirect("/login");
     },
 
     checkCarOwnership: function (request, response, next) {
