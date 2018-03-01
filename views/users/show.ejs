@@ -4,7 +4,7 @@
     <h1><%= user.username %></h1>
     <div class="thumbnail">
     </div>
-
+    <h3> User comments: </h3>
     <% comments.forEach(function(comment){%>
     <div class="list-group">
     <a href="/cars/<%= comment.car._id %>" class="list-group-item list-group-item-action flex-column align-items-start">

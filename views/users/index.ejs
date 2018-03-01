@@ -1,0 +1,16 @@
+<% include ../partials/header %>
+
+<div class="container">
+<h1>Users</h1>
+<% users.forEach(function(user){%>
+<div class="list-group">
+    <a href="/users/<%= user._id %>" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+        <span> <%= user.username %> </span>
+        <span class="badge badge-primary badge-pill">-1</span>
+    </a>
+</div>
+<% }); %>
+
+</div>
+
+<% include ../partials/footer %>

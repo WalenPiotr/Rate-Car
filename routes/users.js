@@ -5,9 +5,16 @@ var Comment = require("../models/comment.js");
 var Car = require("../models/car.js");
 var async = require("async");
 
+
+router.get("/users", (request, response) => {
+    User.find({}, (error, users) => {
+        response.render("users/index.ejs", {users: users});
+    });
+});
+
 router.get("/users/:id", (request, response) => {
-    User.findById(request.params.id, function (err, user) {
-        if (err) {
+    User.findById(request.params.id, function (error, user) {
+        if (error) {
             request.flash("error", "Something went wrong.");
             return response.redirect("/");
         }
