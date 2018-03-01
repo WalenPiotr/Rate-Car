@@ -70,14 +70,14 @@ router.post("/register", (request, response) => {
                 var smtpTransport = nodemailer.createTransport({
                     service: "Gmail",
                     auth: {
-                        user: "321placeholder123@gmail.com",
+                        user: process.env.MAIL,
                         pass: process.env.MAILPASSWORD
                     },
 
                 });
                 var mailOptions = {
                     to: user.email,
-                    from: "321placeholder123@gmail.com",
+                    from: process.env.MAIL,
                     subject: "Rate Car Account Activation",
                     text: "You are receiving this because you (or someone else) have created new account on RateCar.\n\n" +
                         "Please click on the following link, or paste this into your browser to activate account:\n\n" +
@@ -165,14 +165,14 @@ router.post("/forgot", (request, response, next) => {
             var smtpTransport = nodemailer.createTransport({
                 service: "Gmail",
                 auth: {
-                    user: "321placeholder123@gmail.com",
+                    user: process.env.MAIL,
                     pass: process.env.MAILPASSWORD
                 },
 
             });
             var mailOptions = {
                 to: user.email,
-                from: "321placeholder123@gmail.com",
+                from: process.env.MAIL,
                 subject: "Rate Car Password Reset",
                 text: "You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n" +
                     "Please click on the following link, or paste this into your browser to complete the process:\n\n" +
@@ -232,13 +232,13 @@ router.post("/reset/:token", (request, response) => {
             var smtpTransport = nodemailer.createTransport({
                 service: 'Gmail',
                 auth: {
-                    user: '321placeholder123@gmail.com',
+                    user: process.env.MAIL,
                     pass: process.env.MAILPASSWORD
                 }
             });
             var mailOptions = {
                 to: user.email,
-                from: '321placeholder123@gmail.com',
+                from: process.env.MAIL,
                 subject: 'Your password has been changed',
                 text: 'Hello,\n\n' +
                     'This is a confirmation that the password for your account ' + user.email + ' has just been changed.\n'
