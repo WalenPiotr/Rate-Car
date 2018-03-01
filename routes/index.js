@@ -107,10 +107,6 @@ router.get("/register/:token", (request, response) => {
         } else {
             request.flash("success", "Your account has been activated.");
             response.redirect("/cars");
-            // passport.authenticate("local")(request, response, () => {
-            //     request.flash("success", "You have been successfully registered and logged in.");
-            //     response.redirect("/cars");
-            // });
         }
     });
 });

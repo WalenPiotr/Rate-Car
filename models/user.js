@@ -9,7 +9,7 @@ var UserSchema = new mongoose.Schema({
     isActivated: { type: Boolean, default: false },
     activationToken: String,
     resetPasswordToken: String,
-    resetPasswordExpires: Date
+    resetPasswordExpires: Date,
 });
 
 UserSchema.plugin(passportLocalMongoose);

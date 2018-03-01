@@ -1,0 +1,21 @@
+<% include ../partials/header %>
+
+<div class="container">
+    <h1><%= user.username %></h1>
+    <div class="thumbnail">
+    </div>
+
+    <% comments.forEach(function(comment){%>
+    <div class="list-group">
+        <li class="list-group-item flex-column align-items-start">
+            <p class="mb-1"><p><%= comment.text %></p></p>
+            <div class="d-flex w-100 justify-content-between">
+                <small> <%= comment.createdAt %></small>
+            </div>
+        </li>
+    </div>
+    <% }); %>
+
+</div>
+
+<% include ../partials/footer %>
