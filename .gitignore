@@ -64,4 +64,5 @@ typings/
 
 # MongoDB
 data/
+# Webstorm
 .idea/
