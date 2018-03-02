@@ -7,9 +7,21 @@ var async = require("async");
 
 
 router.get("/users", (request, response) => {
-    User.find({}, (error, users) => {
-        response.render("users/index.ejs", {users: users});
-    });
+    if (request.query.search) {
+        User.find({ $text: { $search: request.query.search } }, { score: { $meta: "textScore" } })
+            .sort({ score: { $meta: "textScore" } })
+            .exec(function (error, users) {
+                if (error) {
+                    console.log(error)
+                } else {
+                    response.render("users/index.ejs", { users: users });
+                }
+            });
+    } else {
+        User.find({}, (error, users) => {
+            response.render("users/index.ejs", { users: users });
+        });
+    }
 });
 
 router.get("/users/:id", (request, response) => {
@@ -23,8 +35,8 @@ router.get("/users/:id", (request, response) => {
                 request.flash("error", "Something went wrong.");
                 return response.redirect("/");
             }
-                console.log(comments);
-                response.render("users/show.ejs", { user: user, comments: comments});
+            console.log(comments);
+            response.render("users/show.ejs", { user: user, comments: comments });
         });
     });
 });

@@ -2,6 +2,12 @@
 
 <div class="container">
 <h1>Users</h1>
+<form class="input-group mb-3" action="/users" method="GET">
+<input name="search" type="text" class="form-control" placeholder="Enter username" aria-label="Search user" aria-describedby="basic-addon2">
+<div class="input-group-append">
+    <input type="submit" class="btn btn-outline-secondary" value="Search">
+</div>
+</form>
 <% users.forEach(function(user){%>
 <div class="list-group">
     <a href="/users/<%= user._id %>" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">

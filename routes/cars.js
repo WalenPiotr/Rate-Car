@@ -14,7 +14,6 @@ router.get("/cars", function (request, response) {
                 if (error) {
                     console.log(error)
                 } else {
-                    console.log(cars)
                     response.render("cars/index.ejs", { cars: cars });
                 }
             });

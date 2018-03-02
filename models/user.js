@@ -1,7 +1,7 @@
 var mongoose = require("mongoose");
 var passportLocalMongoose = require("passport-local-mongoose");
 
-var UserSchema = new mongoose.Schema({
+var schema = new mongoose.Schema({
     username: { type: String, unique: true, required: true },
     password: { type: String },
     isAdmin: { type: Boolean, default: false },
@@ -10,8 +10,12 @@ var UserSchema = new mongoose.Schema({
     activationToken: String,
     resetPasswordToken: String,
     resetPasswordExpires: Date,
-});
+},
+    { emitIndexErrors: false }
+);
 
-UserSchema.plugin(passportLocalMongoose);
+schema.index({username: "text"})
 
-module.exports = mongoose.model("User", UserSchema);
+schema.plugin(passportLocalMongoose);
+
+module.exports = mongoose.model("User", schema);
