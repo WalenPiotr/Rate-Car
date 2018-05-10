@@ -9,7 +9,7 @@ var nodemailer = require("nodemailer");
 var crypto = require("crypto");
 
 router.use(require("express-session")({
-    secret: "Sarna to fajny zwierz",
+    secret: process.env.SECRET,
     resave: false,
     saveUninitialized: false
 }));
