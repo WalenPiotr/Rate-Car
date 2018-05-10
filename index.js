@@ -1,5 +1,6 @@
 var express = require("express");
 var app = express()
+require('dotenv').config()
 
 var mongoose = require("mongoose");
 mongoose.connect(process.env.DBURL);
