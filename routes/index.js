@@ -176,9 +176,9 @@ router.post("/forgot", (request, response, next) => {
                     "If you did not request this, please ignore this email and your password will remain unchanged.\n"
             }
             smtpTransport.sendMail(mailOptions, error => {
+                callback(error, "done");
                 console.log("Mail sent");
                 request.flash("success", "An e-mail has been sent to " + user.email + " with further instructions.");
-                callback(error, "done");
             });
         }
     ], error => {
