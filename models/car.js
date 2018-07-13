@@ -1,26 +1,26 @@
-var mongoose = require("mongoose");
-var Comment = require("./comment.js");
+var mongoose = require('mongoose');
+var Comment = require('./comment.js');
 
 var schema = new mongoose.Schema(
     {
-    model: String,
-    brand: String,
-    description: String,
-    author: {
-        id: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: "User"
+        model: String,
+        brand: String,
+        description: String,
+        author: {
+            id: {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: 'User',
+            },
+            username: String,
         },
-        username: String
+        comments: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Comment' }],
     },
-    comments: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Comment' }]
-    },
-    
+
     {
-        emitIndexErrors: false
-    }
+        emitIndexErrors: true,
+    },
 );
 
-schema.index({model: "text", brand: "text"})
+schema.index({ model: 'text', brand: 'text' });
 
-module.exports = mongoose.model("Car", schema);
+module.exports = mongoose.model('Car', schema);
