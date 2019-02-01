@@ -1,5 +1,4 @@
 <h3>Car review application<h3>
-<p>Demo: https://rate-car.herokuapp.com/cars </p>
 <p>You can preview site by login as:</p>
 <p>user: admin</p>
 <p>password: 12345</p>
